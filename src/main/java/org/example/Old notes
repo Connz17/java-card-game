@@ -1,32 +1,13 @@
-    public void playGame(){
-        boolean isDeckEmpty = getDeckOfCards().isEmpty();
-
-        System.out.println("please state how many players are playing 1 or 2");
-        int selection = numberOfPlayers.nextInt();
-
-        if (selection == 1){
-            System.out.println("Please enter you player name...");
-            String playerName = PlayerNames.nextLine();
-            System.out.println(playerName + " press enter to draw a card and start the game");
-
-            if(!playerName.isBlank()) {
-                String dealCard = drawCard.nextLine();
-                System.out.println(dealCard());
-            }
-            while (!isDeckEmpty){
-                System.out.println(playerName +" draw a card");
-                String enter = drawCard.nextLine();
-                System.out.println(dealCard());
-
-                int currentCard = getCurrentCard().getValue();
-                int oldCard = getPreviousCard().getValue();
-
-                if (currentCard == oldCard) {
-                    System.out.println("SNAP!! " + playerName +" You Won!!!");
-                    break;
-                }
-            }
-        }
 
 
 timer method if player hasn't entered snap continue
+
+long startTime = System.currentTimeMillis();
+                String snap = scanner.next();
+                long stopTime = System.currentTimeMillis();
+                long reactionTime = stopTime - startTime;
+                if (snap.equals("snap") && reactionTime < 2000) {
+                    twoPlayer = true;
+                    System.out.println("SNAP!!!");
+                    System.out.println("You win");
+                }

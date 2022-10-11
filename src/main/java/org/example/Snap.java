@@ -58,7 +58,14 @@ public class Snap extends CardGame {
     private void singlePlayerGame(){
         boolean isDeckEmpty = getDeckOfCards().isEmpty();
         Timer timer = new Timer();
-        TimerTask task = new SinglePlayerCountdown();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("you ran out of time");
+                System.exit(0);
+            }
+        };
+
         while (!isDeckEmpty){
             System.out.println(snapPlayer1.getPlayerName() +" draw a card");
             String newCard = drawCard.nextLine();
@@ -68,12 +75,9 @@ public class Snap extends CardGame {
             int oldCard = getPreviousCard().getValue();
 
             if (currentCard == oldCard) {
-//                timer.schedule(task,50000);
-//                task.cancel();
-//                System.out.println("you ran out of time");
-//                timer.cancel();
+                timer.schedule(task,3000);
                 handleSnap();
-                System.out.println("SNAP!! " + snapPlayer1.getPlayerName() +" You Won!!!");
+                timer.cancel();
                 break;
             }
         }
@@ -81,6 +85,14 @@ public class Snap extends CardGame {
 
     private void twoPlayerGame(){
         boolean isDeckEmpty = getDeckOfCards().isEmpty();
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("you ran out of time");
+                System.exit(0);
+            }
+        };
         currentPlayer = snapPlayer1;
         while (!isDeckEmpty){
             switchPlayer();
@@ -92,7 +104,9 @@ public class Snap extends CardGame {
             int oldCard = getPreviousCard().getValue();
 
                 if (currentCard == oldCard) {
+                    timer.schedule(task,3000);
                     handleMultiplayerSnap();
+                    timer.cancel();
                     break;
                 }
 
@@ -100,14 +114,7 @@ public class Snap extends CardGame {
     }
 
 
-    class SinglePlayerCountdown extends TimerTask{
 
-
-        public void run() {
-          handleSnap();
-
-        }
-    }
     private void handleSnap(){
         String win = snap.nextLine();
         if (win.equalsIgnoreCase("SNAP")){
@@ -127,7 +134,6 @@ public class Snap extends CardGame {
             System.out.println("\n" + currentPlayer.getPlayerName() +" You Won!!!");
         }
     }
-
 
     private void switchPlayer(){
         if (currentPlayer == snapPlayer1){
@@ -156,5 +162,6 @@ public class Snap extends CardGame {
     }
 
 }
+
 
 
